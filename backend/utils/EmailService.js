@@ -51,6 +51,24 @@ const otpTemplate = (title, name, otp, message) => `
 `;
 
 
+export const sendVerificationEmail = async (email, name, otp) => {
+    return sendEmail({
+        to: [{email, name}],
+        subject: "Your Verification Code - JobPortal",
+        htmlContent: otpTemplate("Verify Your Email", name, otp, "Thank you for signing up. Please use the following 6-digit code to verify your email address")
+    })
+}
+
+export const sendforgotPasswordEmail = async (email, name, otp) => {
+    return sendEmail({
+        to: [{email, name}],
+        subject: "Reset Your Password - JobPortal",
+        htmlContent: otpTemplate("Reset Your Password", name, otp, "You requested to reset your password. Please use the following 6-digit code to proceed")
+    })
+}
+
+export const sendAdminInqueryEmail = async (data) => {
+
     const htmlContent = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
             <h2 style="color: #4f46e5;">New Contact Form Submission</h2>
@@ -67,3 +85,9 @@ const otpTemplate = (title, name, otp, message) => `
             <p style="font-size: 12px; color: #888888; text-align: center;">This is an automated notification from JobPortal.</p>
         </div>
     `;
+    return sendEmail({
+        to: [{ email: process.env.ADMIN_EMAIL, name: "Admin" }],
+        subject: "New Contact Form Submission - JobPortal",
+        htmlContent
+    });
+}
